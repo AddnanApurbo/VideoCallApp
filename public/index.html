@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple WebRTC Demo</title>
+  </head>
+  <body>
+    <h1>Simple WebRTC Demo</h1>
+
+    <p>
+      Open this page on two devices, enter the same room ID, join the room, and
+      then start the call from one side.
+    </p>
+
+    <label for="roomId">Room ID:</label>
+    <input id="roomId" type="text" value="demo-room" />
+    <button id="joinButton">Join Room</button>
+    <button id="startCallButton">Start Call</button>
+    <button id="endCallButton">End Call</button>
+    <button id="toggleMicButton">Toggle Mic</button>
+    <button id="toggleCameraButton">Toggle Camera</button>
+
+    <p id="statusText">Status: idle</p>
+
+    <h2>Local Video</h2>
+    <video id="localVideo" autoplay playsinline muted></video>
+
+    <h2>Remote Video</h2>
+    <video id="remoteVideo" autoplay playsinline></video>
+
+    <script src="/config.js"></script>
+    <script src="/client.js"></script>
+  </body>
+  </html>
