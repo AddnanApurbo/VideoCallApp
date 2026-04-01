@@ -65,8 +65,14 @@ const rtcConfig = { iceServers };
 // This helper updates the visible status text and also prints the same message
 // to the browser console so debugging is easier.
 function setStatus(message) {
-  statusText.textContent = `Status: ${message}`;
+  statusText.textContent = message;
+  statusText.dataset.state = message;
   console.log("STATUS:", message);
+}
+
+// The UI shows a placeholder message until a real stream is attached.
+function setVideoActive(videoElement, isActive) {
+  videoElement.dataset.active = isActive ? "true" : "false";
 }
 
 // Small helper so we always send JSON messages the same way.
@@ -92,6 +98,7 @@ async function setupLocalMedia() {
   });
 
   localVideo.srcObject = localStream;
+  setVideoActive(localVideo, true);
   setStatus("camera ready");
   updateMediaButtons();
   return localStream;
@@ -189,6 +196,7 @@ function createPeerConnection() {
   // When the remote stream arrives, show it in the remote video element.
   peerConnection.ontrack = (event) => {
     remoteVideo.srcObject = event.streams[0];
+    setVideoActive(remoteVideo, true);
     setStatus("connected");
   };
 
@@ -230,6 +238,7 @@ function stopLocalMedia() {
 
   localStream = null;
   localVideo.srcObject = null;
+  setVideoActive(localVideo, false);
 }
 
 // End Call should leave the room, stop the media devices, clear remote video,
@@ -243,6 +252,7 @@ function cleanupCall({ notifyServer = true } = {}) {
   stopLocalMedia();
 
   remoteVideo.srcObject = null;
+  setVideoActive(remoteVideo, false);
   hasPeerInRoom = false;
   joinedRoomId = "";
   updateMediaButtons();
@@ -327,6 +337,7 @@ function connectWebSocket() {
         console.log("Peer left the room.");
         hasPeerInRoom = false;
         remoteVideo.srcObject = null;
+        setVideoActive(remoteVideo, false);
         closePeerConnection();
         setStatus("waiting for peer");
         return;
@@ -496,4 +507,6 @@ toggleCameraButton.addEventListener("click", async () => {
 });
 
 // Set the initial labels when the page first loads.
+setVideoActive(localVideo, false);
+setVideoActive(remoteVideo, false);
 updateMediaButtons();

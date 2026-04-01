@@ -3,33 +3,93 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple WebRTC Demo</title>
+    <title>Orbit Call</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Simple WebRTC Demo</h1>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">WebRTC Demo</p>
+          <h1>Orbit Call</h1>
+          <p class="hero-text">
+            A polished 1-to-1 video calling test page you can run locally or deploy.
+            Join the same room on two devices, then start the call from one side.
+          </p>
+        </div>
 
-    <p>
-      Open this page on two devices, enter the same room ID, join the room, and
-      then start the call from one side.
-    </p>
+        <div class="hero-card">
+          <p class="hero-card-label">Connection Status</p>
+          <p id="statusText" class="status-pill" data-state="idle">idle</p>
+          <p class="hero-card-note">
+            Camera, room join, and connection progress will appear here.
+          </p>
+        </div>
+      </header>
 
-    <label for="roomId">Room ID:</label>
-    <input id="roomId" type="text" value="demo-room" />
-    <button id="joinButton">Join Room</button>
-    <button id="startCallButton">Start Call</button>
-    <button id="endCallButton">End Call</button>
-    <button id="toggleMicButton">Toggle Mic</button>
-    <button id="toggleCameraButton">Toggle Camera</button>
+      <main class="dashboard">
+        <section class="panel controls-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Session</p>
+            <h2>Call Controls</h2>
+          </div>
 
-    <p id="statusText">Status: idle</p>
+          <label class="field-label" for="roomId">Room ID</label>
+          <input id="roomId" class="room-input" type="text" value="demo-room" />
 
-    <h2>Local Video</h2>
-    <video id="localVideo" autoplay playsinline muted></video>
+          <div class="button-grid">
+            <button id="joinButton" class="button button-primary">Join Room</button>
+            <button id="startCallButton" class="button button-secondary">Start Call</button>
+            <button id="endCallButton" class="button button-danger">End Call</button>
+            <button id="toggleMicButton" class="button button-ghost">Toggle Mic</button>
+            <button id="toggleCameraButton" class="button button-ghost">Toggle Camera</button>
+          </div>
 
-    <h2>Remote Video</h2>
-    <video id="remoteVideo" autoplay playsinline></video>
+          <div class="tips-card">
+            <p class="tips-title">Quick Test Flow</p>
+            <ol class="tips-list">
+              <li>Open the same page on two devices.</li>
+              <li>Use the same room ID on both.</li>
+              <li>Click <strong>Join Room</strong> on both sides.</li>
+              <li>Click <strong>Start Call</strong> on one side.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="panel stage-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Live View</p>
+            <h2>Video Stage</h2>
+          </div>
+
+          <div class="video-grid">
+            <section class="video-card">
+              <div class="video-card-header">
+                <p>Local Camera</p>
+                <span class="badge">You</span>
+              </div>
+              <div class="video-frame">
+                <video id="localVideo" autoplay playsinline muted></video>
+                <div class="video-empty">Your camera preview will appear here.</div>
+              </div>
+            </section>
+
+            <section class="video-card">
+              <div class="video-card-header">
+                <p>Remote Camera</p>
+                <span class="badge badge-accent">Peer</span>
+              </div>
+              <div class="video-frame">
+                <video id="remoteVideo" autoplay playsinline></video>
+                <div class="video-empty">The other person's video will appear here.</div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="/config.js"></script>
     <script src="/client.js"></script>
   </body>
-  </html>
+</html>
