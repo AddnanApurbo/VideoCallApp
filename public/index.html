@@ -3,89 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adnan's App For call</title>
+    <title>Orbit Call</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <header class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Adnan's</p>
-          <h1>Video Call App</h1>
-          <p class="hero-text">
-            Bleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-          </p>
+    <div id="callScreen" class="call-screen controls-visible">
+      <div class="remote-stage">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <div class="video-empty remote-empty">
+          Waiting for the other person's video to appear.
+        </div>
+      </div>
+
+      <div class="screen-gradient"></div>
+
+      <header class="top-hud">
+        <div class="app-chip">
+          <p class="app-name">Orbit Call</p>
+          <p id="statusText" class="status-text" data-state="idle">idle</p>
         </div>
 
-        <div class="hero-card">
-          <p class="hero-card-label">Connection Status</p>
-          <p id="statusText" class="status-pill" data-state="idle">idle</p>
-          <p class="hero-card-note">
-            Camera, room join, and connection progress will appear here.
-          </p>
+        <div class="room-card">
+          <label class="room-label" for="roomId">Room ID</label>
+          <div class="room-actions">
+            <input id="roomId" class="room-input" type="text" value="demo-room" />
+            <button id="joinButton" class="action-button">Join</button>
+            <button id="startCallButton" class="action-button action-button-accent">
+              Start
+            </button>
+          </div>
         </div>
       </header>
 
-      <main class="dashboard">
-        <section class="panel controls-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">Session</p>
-            <h2>Call Controls</h2>
-          </div>
+      <aside class="local-preview">
+        <div class="local-preview-header">
+          <span>You</span>
+        </div>
+        <video id="localVideo" autoplay playsinline muted></video>
+        <div class="video-empty local-empty">Your camera preview lives here.</div>
+      </aside>
 
-          <label class="field-label" for="roomId">Room ID</label>
-          <input id="roomId" class="room-input" type="text" value="demo-room" />
-
-          <div class="button-grid">
-            <button id="joinButton" class="button button-primary">Join Room</button>
-            <button id="startCallButton" class="button button-secondary">Start Call</button>
-            <button id="endCallButton" class="button button-danger">End Call</button>
-            <button id="toggleMicButton" class="button button-ghost">Toggle Mic</button>
-            <button id="toggleCameraButton" class="button button-ghost">Toggle Camera</button>
-          </div>
-
-          <div class="tips-card">
-            <p class="tips-title">Quick Test Flow</p>
-            <ol class="tips-list">
-              <li>Open the same page on two devices.</li>
-              <li>Use the same room ID on both.</li>
-              <li>Click <strong>Join Room</strong> on both sides.</li>
-              <li>Click <strong>Start Call</strong> on one side.</li>
-            </ol>
-          </div>
-        </section>
-
-        <section class="panel stage-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">Live View</p>
-            <h2>Video Stage</h2>
-          </div>
-
-          <div class="video-grid">
-            <section class="video-card">
-              <div class="video-card-header">
-                <p>Local Camera</p>
-                <span class="badge">You</span>
-              </div>
-              <div class="video-frame">
-                <video id="localVideo" autoplay playsinline muted></video>
-                <div class="video-empty">Your camera preview will appear here.</div>
-              </div>
-            </section>
-
-            <section class="video-card">
-              <div class="video-card-header">
-                <p>Remote Camera</p>
-                <span class="badge badge-accent">Peer</span>
-              </div>
-              <div class="video-frame">
-                <video id="remoteVideo" autoplay playsinline></video>
-                <div class="video-empty">The other person's video will appear here.</div>
-              </div>
-            </section>
-          </div>
-        </section>
-      </main>
+      <div id="controlsOverlay" class="controls-overlay">
+        <div class="controls-pill">
+          <button
+            id="toggleMicButton"
+            class="control-button"
+            type="button"
+            aria-label="Toggle microphone"
+            title="Toggle microphone"
+          >
+            🎤
+          </button>
+          <button
+            id="toggleCameraButton"
+            class="control-button"
+            type="button"
+            aria-label="Toggle camera"
+            title="Toggle camera"
+          >
+            📷
+          </button>
+          <button
+            id="endCallButton"
+            class="control-button control-button-end"
+            type="button"
+            aria-label="End call"
+            title="End call"
+          >
+            📞
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="/config.js"></script>

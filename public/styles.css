@@ -1,31 +1,27 @@
 :root {
-  --bg: #f4efe4;
-  --bg-warm: #efe2cc;
-  --panel: rgba(255, 250, 241, 0.78);
-  --panel-strong: rgba(255, 247, 235, 0.96);
-  --line: rgba(76, 54, 34, 0.12);
-  --text: #23170e;
-  --muted: #695444;
-  --primary: #c45f35;
-  --primary-deep: #8f3d20;
-  --accent: #1f6c63;
-  --danger: #9e2d29;
-  --shadow: 0 24px 60px rgba(60, 32, 10, 0.14);
+  --bg: #050505;
+  --panel: rgba(19, 19, 22, 0.72);
+  --panel-strong: rgba(10, 10, 12, 0.82);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #f4f4f6;
+  --muted: rgba(255, 255, 255, 0.7);
+  --accent: #8b5cf6;
+  --accent-2: #2dd4bf;
+  --danger: #ff3b5c;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
+  background: var(--bg);
   color: var(--text);
-  font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(196, 95, 53, 0.18), transparent 32%),
-    radial-gradient(circle at top right, rgba(31, 108, 99, 0.18), transparent 28%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-warm) 100%);
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 button,
@@ -33,276 +29,46 @@ input {
   font: inherit;
 }
 
-.page-shell {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 32px 0 48px;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.45fr 0.9fr;
-  gap: 24px;
-  align-items: stretch;
-  margin-bottom: 24px;
-}
-
-.hero-copy,
-.hero-card,
-.panel {
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  background: var(--panel);
-  backdrop-filter: blur(14px);
-  box-shadow: var(--shadow);
-}
-
-.hero-copy {
-  padding: 32px;
-}
-
-.eyebrow {
-  margin: 0 0 8px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.hero h1,
-.panel h2 {
-  margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4.6rem);
-  line-height: 0.95;
-  max-width: 7ch;
-}
-
-.hero-text {
-  max-width: 58ch;
-  margin: 18px 0 0;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
-}
-
-.hero-card {
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background:
-    linear-gradient(145deg, rgba(255, 244, 228, 0.96), rgba(248, 233, 214, 0.82));
-}
-
-.hero-card-label,
-.hero-card-note,
-.video-card-header p,
-.tips-title {
-  margin: 0;
-}
-
-.hero-card-label,
-.tips-title {
-  font-weight: 700;
-}
-
-.hero-card-note {
-  margin-top: 14px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.status-pill {
-  width: fit-content;
-  margin: 14px 0 0;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(35, 23, 14, 0.08);
-  color: var(--text);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: capitalize;
-}
-
-.status-pill[data-state="camera ready"],
-.status-pill[data-state="joined room"],
-.status-pill[data-state="waiting for peer"] {
-  background: rgba(31, 108, 99, 0.12);
-  color: var(--accent);
-}
-
-.status-pill[data-state="connecting"] {
-  background: rgba(196, 95, 53, 0.16);
-  color: var(--primary-deep);
-}
-
-.status-pill[data-state="connected"] {
-  background: rgba(31, 108, 99, 0.18);
-  color: #0e564e;
-}
-
-.status-pill[data-state="disconnected"],
-.status-pill[data-state="Could not join room"],
-.status-pill[data-state="Could not start call"] {
-  background: rgba(158, 45, 41, 0.14);
-  color: var(--danger);
-}
-
-.dashboard {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 24px;
-}
-
-.panel {
-  padding: 24px;
-}
-
-.panel-heading {
-  margin-bottom: 18px;
-}
-
-.field-label {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-
-.room-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid rgba(76, 54, 34, 0.16);
-  border-radius: 16px;
-  background: rgba(255, 251, 246, 0.96);
-  color: var(--text);
-  outline: none;
-}
-
-.room-input:focus {
-  border-color: rgba(196, 95, 53, 0.55);
-  box-shadow: 0 0 0 4px rgba(196, 95, 53, 0.12);
-}
-
-.button-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.button {
-  min-height: 48px;
-  border: none;
-  border-radius: 16px;
-  padding: 12px 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button:active {
-  transform: translateY(0);
-}
-
-.button-primary {
-  background: linear-gradient(135deg, var(--primary), #df8756);
-  color: #fff8f2;
-  box-shadow: 0 12px 24px rgba(196, 95, 53, 0.22);
-}
-
-.button-secondary {
-  background: linear-gradient(135deg, var(--accent), #3a8a7e);
-  color: #effcf7;
-  box-shadow: 0 12px 24px rgba(31, 108, 99, 0.2);
-}
-
-.button-danger {
-  background: linear-gradient(135deg, var(--danger), #bf4840);
-  color: #fff5f4;
-}
-
-.button-ghost {
-  background: rgba(255, 250, 243, 0.9);
-  color: var(--text);
-  border: 1px solid rgba(76, 54, 34, 0.12);
-}
-
-.tips-card {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 20px;
-  background: var(--panel-strong);
-  border: 1px solid rgba(76, 54, 34, 0.08);
-}
-
-.tips-list {
-  margin: 12px 0 0;
-  padding-left: 18px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.video-card {
-  border-radius: 24px;
+body {
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(35, 23, 14, 0.06), rgba(35, 23, 14, 0.02));
-  border: 1px solid rgba(76, 54, 34, 0.12);
 }
 
-.video-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-}
-
-.badge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: rgba(196, 95, 53, 0.12);
-  color: var(--primary-deep);
-}
-
-.badge-accent {
-  background: rgba(31, 108, 99, 0.14);
-  color: var(--accent);
-}
-
-.video-frame {
+/* The full-screen call container acts like the stage used in modern social
+   calling apps. Everything else floats on top of this layer. */
+.call-screen {
   position: relative;
-  aspect-ratio: 16 / 11;
+  width: 100vw;
+  height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 38%),
-    linear-gradient(180deg, #2d2117, #140f0a);
+    radial-gradient(circle at top, rgba(139, 92, 246, 0.12), transparent 30%),
+    radial-gradient(circle at bottom, rgba(45, 212, 191, 0.08), transparent 28%),
+    #050505;
 }
 
-video {
-  display: block;
+.remote-stage,
+.remote-stage video,
+.screen-gradient {
+  position: absolute;
+  inset: 0;
+}
+
+.remote-stage {
+  overflow: hidden;
+}
+
+.remote-stage video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: relative;
   z-index: 1;
+}
+
+/* This dark gradient keeps text and controls readable on top of video. */
+.screen-gradient {
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.06) 24%, rgba(0, 0, 0, 0.12) 64%, rgba(0, 0, 0, 0.72) 100%);
 }
 
 .video-empty {
@@ -312,8 +78,15 @@ video {
   place-items: center;
   padding: 24px;
   text-align: center;
-  color: rgba(255, 243, 230, 0.86);
   line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+  z-index: 0;
+}
+
+.remote-empty {
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 48%),
+    linear-gradient(180deg, #111115, #050505);
 }
 
 video[data-active="true"] + .video-empty {
@@ -324,36 +97,283 @@ video[data-active="false"] {
   opacity: 0;
 }
 
-video[data-active="false"] ~ .video-empty {
+/* The top HUD contains the room input and the connection status. */
+.top-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.app-chip,
+.room-card,
+.controls-pill,
+.local-preview {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.app-chip {
+  min-width: 160px;
+  padding: 14px 16px;
+  border-radius: 22px;
+}
+
+.app-name,
+.status-text,
+.room-label,
+.local-preview-header span {
+  margin: 0;
+}
+
+.app-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.status-text {
+  margin-top: 6px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.status-text[data-state="connected"] {
+  color: #8df1c7;
+}
+
+.status-text[data-state="connecting"] {
+  color: #f8c56b;
+}
+
+.status-text[data-state="disconnected"] {
+  color: #ff8da1;
+}
+
+.room-card {
+  width: min(560px, 100%);
+  padding: 14px;
+  border-radius: 24px;
+}
+
+.room-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.room-actions {
   display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
 }
 
-@media (max-width: 980px) {
-  .hero,
-  .dashboard,
-  .video-grid {
-    grid-template-columns: 1fr;
+.room-input {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  outline: none;
+}
+
+.room-input:focus {
+  border-color: rgba(139, 92, 246, 0.72);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+}
+
+.action-button,
+.control-button {
+  border: none;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, opacity 160ms ease;
+}
+
+.action-button {
+  min-width: 86px;
+  padding: 0 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.action-button-accent {
+  background: linear-gradient(135deg, var(--accent), #5b7cff);
+}
+
+.action-button:hover,
+.control-button:hover {
+  transform: translateY(-1px);
+}
+
+.action-button:active,
+.control-button:active {
+  transform: scale(0.97);
+}
+
+/* Local video is the small picture-in-picture card in the top-right corner. */
+.local-preview {
+  position: absolute;
+  top: 126px;
+  right: 18px;
+  z-index: 4;
+  width: min(26vw, 210px);
+  min-width: 112px;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.local-preview-header {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 0.78rem;
+}
+
+.local-preview video,
+.local-empty {
+  aspect-ratio: 3 / 4;
+}
+
+.local-preview video {
+  width: 100%;
+  object-fit: cover;
+  background: #0e0e11;
+}
+
+.local-empty {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Bottom controls float above the video and mimic modern call UIs. */
+.controls-overlay {
+  position: absolute;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 5;
+  width: calc(100% - 28px);
+  display: flex;
+  justify-content: center;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.controls-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 999px;
+}
+
+.control-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.13);
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.control-button-end {
+  background: linear-gradient(135deg, var(--danger), #ff6b6b);
+}
+
+.control-button[data-muted="true"],
+.control-button[data-disabled="true"] {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.64);
+}
+
+/* When the screen is tapped, the JavaScript toggles this class to fade the
+   controls away after a few seconds. */
+.call-screen.controls-hidden .top-hud,
+.call-screen.controls-hidden .controls-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.call-screen.controls-hidden .top-hud {
+  transform: translateY(-10px);
+}
+
+.call-screen.controls-hidden .controls-overlay {
+  transform: translateX(-50%) translateY(12px);
+}
+
+@media (max-width: 720px) {
+  .top-hud {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px;
   }
 
-  .hero h1 {
-    max-width: none;
+  .room-card {
+    width: 100%;
+  }
+
+  .room-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .room-input {
+    grid-column: 1 / -1;
+  }
+
+  .local-preview {
+    top: 158px;
+    right: 14px;
+    width: min(34vw, 148px);
+    border-radius: 20px;
+  }
+
+  .controls-pill {
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .control-button {
+    width: 58px;
+    height: 58px;
   }
 }
 
-@media (max-width: 640px) {
-  .page-shell {
-    width: min(100% - 20px, 100%);
-    padding-top: 20px;
+@media (max-width: 480px) {
+  .app-chip,
+  .room-card,
+  .controls-pill {
+    border-radius: 20px;
   }
 
-  .hero-copy,
-  .hero-card,
-  .panel {
-    padding: 20px;
-    border-radius: 22px;
+  .local-preview {
+    width: 124px;
+    top: 172px;
   }
 
-  .button-grid {
-    grid-template-columns: 1fr;
+  .controls-overlay {
+    width: calc(100% - 20px);
   }
 }

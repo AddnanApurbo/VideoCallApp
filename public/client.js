@@ -9,6 +9,8 @@ const toggleCameraButton = document.getElementById("toggleCameraButton");
 const statusText = document.getElementById("statusText");
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
+const callScreen = document.getElementById("callScreen");
+const controlsOverlay = document.getElementById("controlsOverlay");
 
 // These variables hold our current app state so different functions can share it.
 let socket;
@@ -17,6 +19,7 @@ let peerConnection;
 let joinedRoomId = "";
 let hasPeerInRoom = false;
 let pendingIceCandidates = [];
+let controlsHideTimer;
 
 const appConfig = window.APP_CONFIG || {};
 const turnConfig = appConfig.turn || {};
@@ -75,6 +78,18 @@ function setVideoActive(videoElement, isActive) {
   videoElement.dataset.active = isActive ? "true" : "false";
 }
 
+// Show the overlays for a short time, then hide them again so the video gets
+// the spotlight. This is similar to how social video apps behave.
+function showControlsTemporarily() {
+  callScreen.classList.remove("controls-hidden");
+  callScreen.classList.add("controls-visible");
+
+  window.clearTimeout(controlsHideTimer);
+  controlsHideTimer = window.setTimeout(() => {
+    callScreen.classList.add("controls-hidden");
+  }, 3000);
+}
+
 // Small helper so we always send JSON messages the same way.
 function sendSignalMessage(payload) {
   if (!socket || socket.readyState !== WebSocket.OPEN) {
@@ -101,6 +116,7 @@ async function setupLocalMedia() {
   setVideoActive(localVideo, true);
   setStatus("camera ready");
   updateMediaButtons();
+  showControlsTemporarily();
   return localStream;
 }
 
@@ -109,13 +125,21 @@ async function setupLocalMedia() {
 function updateMediaButtons() {
   const audioTrack = localStream?.getAudioTracks()[0];
   const videoTrack = localStream?.getVideoTracks()[0];
+  const isMicOn = Boolean(audioTrack?.enabled);
+  const isCameraOn = Boolean(videoTrack?.enabled);
 
-  toggleMicButton.textContent =
-    audioTrack && audioTrack.enabled ? "Toggle Mic (On)" : "Toggle Mic (Off)";
-  toggleCameraButton.textContent =
-    videoTrack && videoTrack.enabled
-      ? "Toggle Camera (On)"
-      : "Toggle Camera (Off)";
+  toggleMicButton.textContent = isMicOn ? "🎤" : "🔇";
+  toggleCameraButton.textContent = isCameraOn ? "📷" : "🚫";
+  toggleMicButton.dataset.muted = isMicOn ? "false" : "true";
+  toggleCameraButton.dataset.disabled = isCameraOn ? "false" : "true";
+  toggleMicButton.setAttribute(
+    "aria-label",
+    isMicOn ? "Turn microphone off" : "Turn microphone on"
+  );
+  toggleCameraButton.setAttribute(
+    "aria-label",
+    isCameraOn ? "Turn camera off" : "Turn camera on"
+  );
 }
 
 // If ICE candidates arrive before the remote description is ready, we hold
@@ -159,6 +183,7 @@ function createPeerConnection() {
 
     if (peerConnection.iceConnectionState === "checking") {
       setStatus("connecting");
+      showControlsTemporarily();
     }
 
     if (["connected", "completed"].includes(peerConnection.iceConnectionState)) {
@@ -198,6 +223,7 @@ function createPeerConnection() {
     remoteVideo.srcObject = event.streams[0];
     setVideoActive(remoteVideo, true);
     setStatus("connected");
+    showControlsTemporarily();
   };
 
   // Add every local media track into the call so the other person can receive
@@ -271,6 +297,7 @@ function cleanupCall({ notifyServer = true } = {}) {
   }
 
   setStatus("disconnected");
+  showControlsTemporarily();
 }
 
 // Connect to the signaling server over WebSocket.
@@ -323,6 +350,7 @@ function connectWebSocket() {
         } else {
           setStatus("waiting for peer");
         }
+        showControlsTemporarily();
         return;
       }
 
@@ -330,6 +358,7 @@ function connectWebSocket() {
         hasPeerInRoom = true;
         console.log("Another peer joined:", message.peerId);
         setStatus("waiting for peer");
+        showControlsTemporarily();
         return;
       }
 
@@ -340,6 +369,7 @@ function connectWebSocket() {
         setVideoActive(remoteVideo, false);
         closePeerConnection();
         setStatus("waiting for peer");
+        showControlsTemporarily();
         return;
       }
 
@@ -407,6 +437,7 @@ function connectWebSocket() {
       if (message.type === "error") {
         console.error(message.message);
         setStatus(message.message);
+        showControlsTemporarily();
       }
     };
   });
@@ -427,9 +458,11 @@ joinButton.addEventListener("click", async () => {
       type: "join",
       roomId: joinedRoomId
     });
+    showControlsTemporarily();
   } catch (error) {
     console.error(error);
     setStatus("Could not join room");
+    showControlsTemporarily();
   }
 });
 
@@ -458,9 +491,11 @@ startCallButton.addEventListener("click", async () => {
       type: "offer",
       sdp: offer.sdp
     });
+    showControlsTemporarily();
   } catch (error) {
     console.error(error);
     setStatus("Could not start call");
+    showControlsTemporarily();
   }
 });
 
@@ -482,9 +517,11 @@ toggleMicButton.addEventListener("click", async () => {
 
     audioTrack.enabled = !audioTrack.enabled;
     updateMediaButtons();
+    showControlsTemporarily();
   } catch (error) {
     console.error(error);
     setStatus("Could not access microphone");
+    showControlsTemporarily();
   }
 });
 
@@ -500,13 +537,21 @@ toggleCameraButton.addEventListener("click", async () => {
 
     videoTrack.enabled = !videoTrack.enabled;
     updateMediaButtons();
+    showControlsTemporarily();
   } catch (error) {
     console.error(error);
     setStatus("Could not access camera");
+    showControlsTemporarily();
   }
+});
+
+// Tapping anywhere on the call screen should bring the controls back.
+callScreen.addEventListener("pointerdown", () => {
+  showControlsTemporarily();
 });
 
 // Set the initial labels when the page first loads.
 setVideoActive(localVideo, false);
 setVideoActive(remoteVideo, false);
 updateMediaButtons();
+showControlsTemporarily();
